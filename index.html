@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sohaib Digital | Elite Digital Services & Web Solutions</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        surface: {
+                            50: '#F8FAFC',
+                            100: '#F1F5F9',
+                            200: '#E2E8F0',
+                            800: '#1E293B',
+                            900: '#0F172A',
+                        },
+                        accent: {
+                            indigo: '#1D4ED8',
+                            violet: '#0EA5E9',
+                            blue: '#0F172A',
+                            emerald: '#0F766E',
+                            amber: '#F59E0B',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Cairo', 'Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft-xl': '0 20px 40px -15px rgba(15, 23, 42, 0.07)',
+                        'indigo-glow': '0 12px 30px -10px rgba(29, 78, 216, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Three.js for 3D Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+            overflow-x: hidden;
+        }
+
+        /* Fixed Three.js WebGL Canvas Background */
+        #webgl-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.65;
+        }
+
+        /* Glassmorphism Light Tokens */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(29, 78, 216, 0.4);
+            box-shadow: 0 25px 50px -12px rgba(29, 78, 216, 0.12);
+        }
+
+        /* Text Gradients */
+        .text-gradient-indigo {
+            background: linear-gradient(135deg, #1D4ED8 0%, #0EA5E9 55%, #F59E0B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8FAFC;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+
+        /* Subtle professional photographic background */
+        body::after {
+            content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+            background-image:linear-gradient(135deg,rgba(248,250,252,.91),rgba(248,250,252,.84)),url("https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=2000&q=80");
+            background-size:cover; background-position:center; background-attachment:fixed; opacity:.48;
+        }
+        .service-photo { width:100%; height:190px; object-fit:cover; border-radius:1.25rem; border:1px solid rgba(148,163,184,.25); box-shadow:0 14px 35px -22px rgba(15,23,42,.45); transition:transform .45s ease,filter .45s ease; }
+        .glass-card:hover .service-photo { transform:scale(1.015); filter:saturate(1.08); }
+        @media(max-width:640px) { .service-photo { height:155px; } body::after { background-attachment:scroll; opacity:.35; } }
+
+        /* Premium visual polish */
+        :root { scroll-padding-top: 6rem; }
+        body { background-image: radial-gradient(ellipse at 12% 18%, rgba(29,78,216,.08), transparent 34%), radial-gradient(ellipse at 88% 58%, rgba(14,165,233,.07), transparent 30%); }
+        .hero-visual { isolation:isolate; transform-style:preserve-3d; box-shadow: 0 28px 70px -28px rgba(29,78,216,.45); transition:transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s; }
+        .hero-visual:hover { transform: perspective(1000px) rotateY(-3deg) rotateX(2deg) translateY(-5px); box-shadow:0 35px 80px -28px rgba(29,78,216,.55); }
+        .glass-card { position:relative; isolation:isolate; }
+        .glass-card::before { content:""; position:absolute; inset:0; border-radius:inherit; background:linear-gradient(135deg,rgba(29,78,216,.07),transparent 42%,rgba(14,165,233,.04)); opacity:0; transition:opacity .35s; pointer-events:none; z-index:-1; }
+        .glass-card:hover::before { opacity:1; }
+        section[id] { scroll-margin-top: 5.5rem; }
+        a,button,input,select,textarea { -webkit-tap-highlight-color:transparent; }
+        :focus-visible { outline:3px solid #38bdf8; outline-offset:3px; }
+        @media (prefers-reduced-motion: reduce) {
+          *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+          #webgl-canvas { display:none; }
+        }
+        @media (max-width:640px) {
+          #webgl-canvas { opacity:.22; }
+          .hero-visual { height:220px; }
+          .glass-card:hover { transform:translateY(-2px); }
+        }
+    </style>
+</head>
+<body class="selection:bg-accent-indigo selection:text-white relative min-h-screen">
+
+    <!-- 3D Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Soft Light Ambient Glow Orbs -->
+    <div class="fixed top-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-200/40 rounded-full blur-[140px] pointer-events-none z-0"></div>
+    <div class="fixed bottom-[10%] left-[-10%] w-[500px] h-[500px] bg-blue-200/40 rounded-full blur-[140px] pointer-events-none z-0"></div>
+
+    <!-- Header Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-accent-indigo via-accent-violet to-accent-blue p-0.5 shadow-md shadow-indigo-500/10 group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-white rounded-[14px] flex items-center justify-center">
+                        <span class="font-black text-xl text-gradient-indigo">S</span>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-black text-lg tracking-tight text-surface-900">Sohaib <span class="text-accent-indigo">Digital</span></span>
+                    <span class="text-[10px] text-slate-500 font-bold" data-i18n="nav-sub">خدمات وبرمجيات رقمية</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 font-bold text-sm">
+                <a href="#about" class="text-slate-600 hover:text-accent-indigo transition-colors" data-i18n="nav-about">عن المكتب</a>
+                <a href="#services" class="text-slate-600 hover:text-accent-indigo transition-colors" data-i18n="nav-services">الخدمات وتفاصيل العمل</a>
+                <a href="#process" class="text-slate-600 hover:text-accent-indigo transition-colors" data-i18n="nav-process">منهجية التنفيذ</a>
+                <a href="#contact" class="text-slate-600 hover:text-accent-indigo transition-colors" data-i18n="nav-contact">طلب مشروع</a>
+            </nav>
+
+            <!-- Language Controls & Direct Action -->
+            <div class="flex items-center gap-3">
+                
+                <!-- 3-Language Selector -->
+                <div class="bg-slate-100 p-1 rounded-xl border border-slate-200 flex items-center text-xs font-bold">
+                    <button onclick="setLanguage('fr')" id="lang-btn-fr" class="px-2.5 py-1.5 rounded-lg transition-all bg-accent-indigo text-white shadow-sm">Français</button>
+                    <button onclick="setLanguage('en')" id="lang-btn-en" class="px-2.5 py-1.5 rounded-lg transition-all text-slate-600 hover:text-surface-900">English</button>
+                    <button onclick="setLanguage('ar')" id="lang-btn-ar" class="px-2.5 py-1.5 rounded-lg transition-all text-slate-600 hover:text-surface-900">العربية</button>
+                </div>
+
+                <!-- WhatsApp Quick CTA -->
+                <a href="#contact" class="hidden sm:flex px-4 py-2.5 rounded-xl text-xs font-extrabold text-white bg-accent-indigo hover:bg-blue-800 transition-all shadow-md shadow-blue-800/20 items-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span data-i18n="btn-whatsapp">تواصل مباشر</span>
+                </a>
+
+                <!-- Mobile Hamburger -->
+                <button id="mobile-menu-btn" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false" class="md:hidden p-2.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 shadow-lg">
+            <a href="#about" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100" data-i18n="nav-about">عن المكتب</a>
+            <a href="#services" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100" data-i18n="nav-services">الخدمات وتفاصيل العمل</a>
+            <a href="#process" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100" data-i18n="nav-process">منهجية التنفيذ</a>
+            <a href="#contact" class="block px-4 py-2.5 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-100" data-i18n="nav-contact">طلب مشروع</a>
+            <a href="#contact" class="w-full text-center block px-4 py-3 rounded-xl font-bold text-white bg-accent-indigo">
+                <i class="fa-brands fa-whatsapp text-lg ml-2"></i> <span data-i18n="btn-whatsapp">تواصل مباشر عبر الواتساب</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <main class="relative z-10 pt-28">
+
+        <!-- Hero Section -->
+        <section id="about" class="min-h-[80vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    
+                    <!-- Hero Text Content -->
+                    <div class="lg:col-span-7 space-y-8">
+                        
+                        <!-- Badge -->
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-200 text-accent-indigo text-xs font-extrabold shadow-sm">
+                            <span class="w-2.5 h-2.5 rounded-full bg-accent-indigo animate-pulse"></span>
+                            <span data-i18n="hero-badge">مكتب متكامل للحلول والبرمجة الرقمية الاحترافية</span>
+                        </div>
+
+                        <!-- Main Title -->
+                        <h1 class="text-4xl sm:text-6xl lg:text-6xl font-black tracking-tight leading-tight text-surface-900">
+                            <span data-i18n="hero-title-1">نحوّل فكرتك إلى</span> <br/>
+                            <span class="text-gradient-indigo" data-i18n="hero-title-2">واقع رقمي عصري ومتميز</span>
+                        </h1>
+
+                        <!-- Lead Paragraph -->
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl font-normal leading-relaxed" data-i18n="hero-desc">
+                            نقدم خدمات برمجية وتصميمية رفيعة المستوى: تطوير المواقع الإلكترونية السريعة، قوائم الطعام الرقمية التفاعلية (QR Menus)، تنسيق المستندات والـ PDFs الاحترافية، وتصميم الهويات البصرية المبتكرة.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+                            <a href="#contact" class="w-full sm:w-auto px-8 py-4 rounded-2xl font-extrabold text-sm text-white bg-accent-indigo hover:bg-indigo-700 transition-all shadow-indigo-glow flex items-center justify-center gap-3">
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
+                                <span data-i18n="hero-cta-main">ابدأ مشروعك الآن</span>
+                            </a>
+                            <a href="#services" class="w-full sm:w-auto px-8 py-4 rounded-2xl font-extrabold text-sm text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-all shadow-sm flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-layer-group text-accent-indigo"></i>
+                                <span data-i18n="hero-cta-secondary">تفاصيل الخدمات</span>
+                            </a>
+                        </div>
+
+                        <!-- Key Pillars -->
+                        <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 max-w-lg">
+                            <div>
+                                <span class="block text-2xl font-black text-surface-900">100%</span>
+                                <span class="text-xs text-slate-500 font-bold" data-i18n="stat-1">احترافية ودقة</span>
+                            </div>
+                            <div>
+                                <span class="block text-2xl font-black text-surface-900">1-on-1</span>
+                                <span class="text-xs text-slate-500 font-bold" data-i18n="stat-2">متابعة مباشرة</span>
+                            </div>
+                            <div>
+                                <span class="block text-2xl font-black text-surface-900">Fast</span>
+                                <span class="text-xs text-slate-500 font-bold" data-i18n="stat-3">سرعة في التسليم</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right Interactive Light Box Showcase -->
+                    <div class="lg:col-span-5">
+                        <div class="glass-card p-8 rounded-3xl text-center space-y-6 relative overflow-hidden shadow-soft-xl border border-indigo-100">
+                            <div class="hero-visual relative mx-auto w-full max-w-md h-64 rounded-2xl overflow-hidden text-left" aria-label="Digital design showcase">
+                                <img src="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1000&q=85" alt="Abstract 3D violet and blue digital sculpture" class="absolute inset-0 w-full h-full object-cover" loading="eager">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-indigo-950/20 to-transparent"></div>
+                                <div class="absolute top-4 left-4 rounded-xl border border-white/25 bg-white/10 px-3 py-2 text-white backdrop-blur-md text-xs font-bold"><i class="fa-solid fa-cube mr-2"></i> DIGITAL CRAFT</div>
+                                <div class="absolute bottom-5 left-5 right-5 text-white">
+                                    <div class="text-xs uppercase tracking-[.25em] text-indigo-200 mb-2">Design • Code • Experience</div>
+                                    <div class="text-2xl font-black">Ideas into impact<span class="text-violet-300">.</span></div>
+                                </div>
+                                <div class="absolute -right-3 -top-3 w-24 h-24 border border-white/30 rounded-3xl rotate-12"></div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-extrabold text-surface-900" data-i18n="card-title">تطوير برمجي حديث بتقنيات 3D</h3>
+                                <p class="text-xs text-slate-600 mt-2 leading-relaxed" data-i18n="card-desc">واجهات نظيفة، استجابة سرعة فائقة، وهندسة برمجية تحترم أفضل معايير تجربة المستخدم (UX/UI).</p>
+                            </div>
+                            <div class="pt-2">
+                                <span class="inline-block px-4 py-2 rounded-xl text-xs font-bold text-accent-indigo bg-indigo-50 border border-indigo-200" data-i18n="card-badge">
+                                    <i class="fa-solid fa-circle-check text-accent-emerald ml-1"></i> Clean Modern Palette
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Services Section with Workflow Explanations -->
+        <section id="services" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-200/80 bg-white/60">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-extrabold uppercase tracking-widest text-accent-indigo" data-i18n="serv-sub">مجالات الاختصاص والتنفيذ</span>
+                    <h2 class="text-3xl sm:text-5xl font-black text-surface-900 mt-2" data-i18n="serv-title">الخدمات وطريقة عملنا في كل مشروع</h2>
+                    <p class="text-slate-600 mt-4 text-sm sm:text-base" data-i18n="serv-desc">نوضح لك بكل شفافية خطوات تنفيذ العمل والنتائج المتوقعة لكل خدمة نقدمها.</p>
+                </div>
+
+                <!-- Services Grid with Detailed Steps -->
+                <div class="grid lg:grid-cols-2 gap-8">
+
+                    <!-- Service 1: Web Development -->
+                    <div class="glass-card p-8 rounded-3xl flex flex-col justify-between border border-slate-200 shadow-soft-xl relative overflow-hidden">
+                        <img class="service-photo mb-7" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=85" alt="واجهة تطوير مواقع وبرمجة على شاشة حاسوب" loading="lazy" decoding="async">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div class="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-accent-indigo text-2xl">
+                                    <i class="fa-solid fa-laptop-code"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-indigo-100 text-accent-indigo" data-i18n="s1-tag">تطوير برجمي</span>
+                            </div>
+
+                            <div>
+                                <h3 class="text-2xl font-extrabold text-surface-900 mb-2" data-i18n="s1-title">تصميم وتطوير المواقع والمنصات</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="s1-desc">
+                                    نصمم موقعاً إلكترونياً عصرياً متجاوباً بالكامل مع الهواتف والحواسب، مجهزاً بأحدث التقنيات لضمان السرعة العالية والظهور المتميز على محركات البحث.
+                                </p>
+                            </div>
+
+                            <!-- Workflow Steps -->
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-3">
+                                <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fa-solid fa-list-check text-accent-indigo"></i>
+                                    <span data-i18n="workflow-title">كيف نعمل على هذا المشروع؟</span>
+                                </h4>
+                                <ul class="text-xs text-slate-600 space-y-2.5">
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-indigo-100 text-accent-indigo font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                                        <span data-i18n="s1-step1"><strong>تحليل المتطلبات:</strong> فهم هوية نشاطك التجاري والأهداف المطلوبة من الموقع.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-indigo-100 text-accent-indigo font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                                        <span data-i18n="s1-step2"><strong>تصميم الواجهات (UI/UX):</strong> إعداد هيكلة بصرية عصرية وسلسة للزوار.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-indigo-100 text-accent-indigo font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                                        <span data-i18n="s1-step3"><strong>البرمجة والربط:</strong> بناء الكود البرمجي وربط أزرار الواتساب ووسائل التواصل مباشرة.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-indigo-100 text-accent-indigo font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">4</span>
+                                        <span data-i18n="s1-step4"><strong>النشر والاختبار:</strong> رفع الموقع على الاستضافة واختبار الأداء والسرعة.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Features Bullet Checklist -->
+                            <div class="grid sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700 pt-1">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s1-feat1">تجاوب مع كل الشاشات</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s1-feat2">ربط واتساب وأزرار اتصال</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s1-feat3">تحسين محركات البحث SEO</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s1-feat4">سرعة تحميل فائقة</span></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-8 mt-6 border-t border-slate-200 flex items-center justify-between">
+                            <a href="#contact" class="w-full text-center py-3.5 rounded-xl bg-accent-indigo hover:bg-indigo-700 text-white font-extrabold text-xs transition-all shadow-md" data-i18n="s-btn">
+                                اطلب هذه الخدمة الآن
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Service 2: Digital QR Menu -->
+                    <div class="glass-card p-8 rounded-3xl flex flex-col justify-between border border-slate-200 shadow-soft-xl relative overflow-hidden">
+                        <img class="service-photo mb-7" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=85" alt="تجربة مطعم وأطباق مناسبة للمنيو الرقمي QR" loading="lazy" decoding="async">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div class="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-accent-blue text-2xl">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-blue-100 text-accent-blue" data-i18n="s2-tag">مطاعم ومقاهي</span>
+                            </div>
+
+                            <div>
+                                <h3 class="text-2xl font-extrabold text-surface-900 mb-2" data-i18n="s2-title">منيو QR رقمي تفاعلي</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="s2-desc">
+                                    تحويل قائمة مطعمك أو مقهاك إلى منيو إلكتروني سريع يفتح عبر مسح كود QR، يسهل على الزبائن تصفح الوجبات، الصور، والأسعار بأسلوب راقٍ.
+                                </p>
+                            </div>
+
+                            <!-- Workflow Steps -->
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-3">
+                                <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fa-solid fa-list-check text-accent-blue"></i>
+                                    <span data-i18n="workflow-title">كيف نعمل على هذا المشروع؟</span>
+                                </h4>
+                                <ul class="text-xs text-slate-600 space-y-2.5">
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-blue-100 text-accent-blue font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                                        <span data-i18n="s2-step1"><strong>استلام القائمة واللقطات:</strong> تزويدنا بالأطباق، الصور، والأسعار الحالية.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-blue-100 text-accent-blue font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                                        <span data-i18n="s2-step2"><strong>الهيكلة والتقسيم:</strong> تنظيم الأقسام (مشروبات، وجبات رئيسية، حلويات...) لسهولة التصفح.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-blue-100 text-accent-blue font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                                        <span data-i18n="s2-step3"><strong>توليد كود QR الدائم:</strong> إنشاء رمز QR عالي الدقة جاهز للطباعة على الطاولات.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-blue-100 text-accent-blue font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">4</span>
+                                        <span data-i18n="s2-step4"><strong>التسليم والتشغيل:</strong> تسليم المنيو وشفرات QR جاهزة للاستخدام الفوري.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Features Bullet Checklist -->
+                            <div class="grid sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700 pt-1">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s2-feat1">تصفح سريع بدون تحميل تطبيق</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s2-feat2">كود QR دائم جاهز للطباعة</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s2-feat3">تقسيم واضح للأطباق والأقسام</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s2-feat4">إمكانية التعديل والتحديث</span></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-8 mt-6 border-t border-slate-200 flex items-center justify-between">
+                            <a href="#contact" class="w-full text-center py-3.5 rounded-xl bg-accent-blue hover:bg-blue-700 text-white font-extrabold text-xs transition-all shadow-md" data-i18n="s-btn">
+                                اطلب هذه الخدمة الآن
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Service 3: Document & PDF Formatting -->
+                    <div class="glass-card p-8 rounded-3xl flex flex-col justify-between border border-slate-200 shadow-soft-xl relative overflow-hidden">
+                        <img class="service-photo mb-7" src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=1200&q=85" alt="مكتب وأوراق ومستندات للتنسيق الاحترافي" loading="lazy" decoding="async">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center text-accent-amber text-2xl">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-amber-100 text-accent-amber" data-i18n="s3-tag">مستندات وتقارير</span>
+                            </div>
+
+                            <div>
+                                <h3 class="text-2xl font-extrabold text-surface-900 mb-2" data-i18n="s3-title">تنسيق وهيكلة المستندات والـ PDF</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="s3-desc">
+                                    تحويل المستندات العشوائية، التقارير والملفات إلى ملفات PDF احترافية ذات تنسيق أنيق، خطوط واضحة، وفهارس منظمة تليق بالشركات والأفراد.
+                                </p>
+                            </div>
+
+                            <!-- Workflow Steps -->
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-3">
+                                <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fa-solid fa-list-check text-accent-amber"></i>
+                                    <span data-i18n="workflow-title">كيف نعمل على هذا المشروع؟</span>
+                                </h4>
+                                <ul class="text-xs text-slate-600 space-y-2.5">
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-amber-100 text-accent-amber font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                                        <span data-i18n="s3-step1"><strong>مراجعة النصوص والبيانات:</strong> التدقيق الأولي وتنظيم ترتيب الصفحات.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-amber-100 text-accent-amber font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                                        <span data-i18n="s3-step2"><strong>تطبيق الهوية والخطوط:</strong> اختيار خطوط رسمية متناسقة وضبط الهوامش والعناوين.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-amber-100 text-accent-amber font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                                        <span data-i18n="s3-step3"><strong>إضافة الترويسة والفهرس:</strong> إضافة الغلاف، الهوامش، ورقم الصفحات والفهارس التفاعلية.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-amber-100 text-accent-amber font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">4</span>
+                                        <span data-i18n="s3-step4"><strong>التصدير النهائي:</strong> تقديم ملف PDF جاهز للطباعة والمشاركة بأعلى جودة.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Features Bullet Checklist -->
+                            <div class="grid sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700 pt-1">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s3-feat1">خطوط احترافية متناسقة</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s3-feat2">إضافة الأغلفة والفهارس</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s3-feat3">جاهز للطباعة والمشاركة</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s3-feat4">تدقيق وتنظيم المحتوى</span></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-8 mt-6 border-t border-slate-200 flex items-center justify-between">
+                            <a href="#contact" class="w-full text-center py-3.5 rounded-xl bg-accent-amber hover:bg-amber-700 text-white font-extrabold text-xs transition-all shadow-md" data-i18n="s-btn">
+                                اطلب هذه الخدمة الآن
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Service 4: Visual Branding & Graphic Design -->
+                    <div class="glass-card p-8 rounded-3xl flex flex-col justify-between border border-slate-200 shadow-soft-xl relative overflow-hidden">
+                        <img class="service-photo mb-7" src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=1200&q=85" alt="أدوات وألوان تصميم الهوية البصرية" loading="lazy" decoding="async">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-accent-emerald text-2xl">
+                                    <i class="fa-solid fa-palette"></i>
+                                </div>
+                                <span class="px-3 py-1 rounded-full text-[11px] font-extrabold bg-emerald-100 text-accent-emerald" data-i18n="s4-tag">هوية وتصاميم</span>
+                            </div>
+
+                            <div>
+                                <h3 class="text-2xl font-extrabold text-surface-900 mb-2" data-i18n="s4-title">الهوية البصرية والتصاميم الإعلانية</h3>
+                                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed" data-i18n="s4-desc">
+                                    ابتكار الشعارات (Logos)، البنرات الإعلانية، وتصاميم مواقع التواصل الاجتماعي التي تعبر بعمق عن جودة خدماتك وتجذب عملائك المباشرين.
+                                </p>
+                            </div>
+
+                            <!-- Workflow Steps -->
+                            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200/80 space-y-3">
+                                <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fa-solid fa-list-check text-accent-emerald"></i>
+                                    <span data-i18n="workflow-title">كيف نعمل على هذا المشروع؟</span>
+                                </h4>
+                                <ul class="text-xs text-slate-600 space-y-2.5">
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-emerald-100 text-accent-emerald font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                                        <span data-i18n="s4-step1"><strong>دراسة الفكرة والنمط:</strong> فهم الرسالة التسويقية والجمهور المستهدف.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-emerald-100 text-accent-emerald font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                                        <span data-i18n="s4-step2"><strong>إعداد النماذج الأولية:</strong> تقديم اقتراحات وتصورات بصرية مبتكرة.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-emerald-100 text-accent-emerald font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                                        <span data-i18n="s4-step3"><strong>التعديل والتطوير:</strong> ضبط الألوان والخطوط بناءً على ملاحظاتك.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2.5">
+                                        <span class="w-5 h-5 rounded-full bg-emerald-100 text-accent-emerald font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">4</span>
+                                        <span data-i18n="s4-step4"><strong>تسليم جميع الصيغ:</strong> إرسال التصاميم بصيغ HD عالية الجودة جاهزة للطباعة والنشر.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Features Bullet Checklist -->
+                            <div class="grid sm:grid-cols-2 gap-2 text-xs font-bold text-slate-700 pt-1">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s4-feat1">شعارات مبتكرة وبسيطة</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s4-feat2">بنرات السوشيال ميديا</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s4-feat3">ألوان متناسقة وعصرية</span></div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-accent-emerald"></i> <span data-i18n="s4-feat4">تسليم بكافة الصيغ (PNG, PDF, SVG)</span></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-8 mt-6 border-t border-slate-200 flex items-center justify-between">
+                            <a href="#contact" class="w-full text-center py-3.5 rounded-xl bg-accent-indigo hover:bg-blue-800 text-white font-extrabold text-xs transition-all shadow-md" data-i18n="s-btn">
+                                اطلب هذه الخدمة الآن
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Step Summary -->
+        <section id="process" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-200">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-xs font-extrabold uppercase tracking-widest text-accent-indigo" data-i18n="proc-sub">مراحل العمل الفعالة</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-surface-900 mt-2" data-i18n="proc-title">4 خطوات بسيطة للبدء والتسليم</h2>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-xl bg-indigo-50 text-accent-indigo flex items-center justify-center font-black text-lg">1</div>
+                        <h4 class="font-extrabold text-surface-900 text-base" data-i18n="p1-t">التواصل والتحديد</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed" data-i18n="p1-d">ترسل لنا تفاصيل مشروعك عبر استمارة الواتساب المباشرة.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-xl bg-indigo-50 text-accent-indigo flex items-center justify-center font-black text-lg">2</div>
+                        <h4 class="font-extrabold text-surface-900 text-base" data-i18n="p2-t">التخطيط والإعداد</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed" data-i18n="p2-d">دراسة المتطلبات وإعداد الهيكل الأولي للعمل للبدء في التنفيذ.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-xl bg-indigo-50 text-accent-indigo flex items-center justify-center font-black text-lg">3</div>
+                        <h4 class="font-extrabold text-surface-900 text-base" data-i18n="p3-t">التنفيذ والمراجعة</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed" data-i18n="p3-d">تطوير العمل وعرض نماذج المراجعة لتعديل أي ملاحظات.</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-3">
+                        <div class="w-12 h-12 mx-auto rounded-xl bg-indigo-50 text-accent-indigo flex items-center justify-center font-black text-lg">4</div>
+                        <h4 class="font-extrabold text-surface-900 text-base" data-i18n="p4-t">التسليم النهائي</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed" data-i18n="p4-d">تسليم المشروع شاملاً كافة الملفات المطلوبة وتفعيل الخدمة.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Direct WhatsApp Consultation Form -->
+        <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-slate-200 bg-white/80">
+            <div class="max-w-3xl mx-auto">
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-accent-emerald text-xs font-extrabold border border-emerald-200 mb-3">
+                        <i class="fa-brands fa-whatsapp text-sm"></i>
+                        <span data-i18n="form-badge">استشارة وتواصل سريع</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-black text-surface-900" data-i18n="form-title">أرسل طلبك مباشرة إلى حساب الواتساب</h2>
+                    <p class="text-slate-600 mt-2 text-xs sm:text-sm" data-i18n="form-desc">قم بتعبئة بياناتك ليتم إعداد رسالة منسقة تلقائياً وفتح تطبيق الواتساب لمراسلتنا فوراً.</p>
+                </div>
+
+                <!-- Form Card -->
+                <div class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-soft-xl">
+                    <form onsubmit="sendToWhatsApp(event)" class="space-y-5">
+                        
+                        <!-- Name Field -->
+                        <div>
+                            <label class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2" data-i18n="f-name">الاسم الكامل *</label>
+                            <input type="text" id="client-name" required placeholder="أحمد المغربي" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm text-surface-900 focus:outline-none focus:border-accent-indigo focus:bg-white transition-all">
+                        </div>
+
+                        <!-- Phone Field -->
+                        <div>
+                            <label class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2" data-i18n="f-phone">رقم الهاتف / الواتساب *</label>
+                            <input type="tel" id="client-phone" required placeholder="0612345678" class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm text-surface-900 focus:outline-none focus:border-accent-indigo focus:bg-white transition-all">
+                        </div>
+
+                        <!-- Service Selector Field -->
+                        <div>
+                            <label class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2" data-i18n="f-service">نوع الخدمة المطلوبة *</label>
+                            <select id="client-service" required class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm text-surface-900 focus:outline-none focus:border-accent-indigo focus:bg-white transition-all">
+                                <option value="Website Design & Development" data-i18n="opt-1">تصميم وتطوير موقع إلكتروني</option>
+                                <option value="Interactive Digital QR Menu" data-i18n="opt-2">منيو QR رقمي للمطاعم والمقاهي</option>
+                                <option value="PDF & Document Formatting" data-i18n="opt-3">تنسيق وهيكلة مستندات و PDF</option>
+                                <option value="Visual Identity & Branding" data-i18n="opt-4">تصميم هوية بصرية وبنرات إعلانية</option>
+                                <option value="Custom Project Consultation" data-i18n="opt-5">استفسار / مشروع خاص</option>
+                            </select>
+                        </div>
+
+                        <!-- Project Details Textarea -->
+                        <div>
+                            <label class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2" data-i18n="f-details">تفاصيل مشروعك *</label>
+                            <textarea id="client-details" required rows="4" placeholder="اكتب تفاصيل الفكرة، ومتطلباتك الخاصة بالمشروع..." class="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-sm text-surface-900 focus:outline-none focus:border-accent-indigo focus:bg-white transition-all resize-none"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="w-full py-4 rounded-2xl font-black text-sm text-white bg-accent-indigo hover:bg-blue-800 transition-all shadow-md shadow-blue-800/20 flex items-center justify-center gap-3">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i>
+                            <span data-i18n="f-submit">إرسال الطلب عبر الواتساب المباشر</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Light Footer -->
+    <footer class="border-t border-slate-200 bg-white py-10 px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-accent-indigo to-accent-violet p-0.5">
+                    <div class="w-full h-full bg-white rounded-[10px] flex items-center justify-center">
+                        <span class="font-extrabold text-sm text-gradient-indigo">S</span>
+                    </div>
+                </div>
+                <span class="font-black text-sm text-surface-900">Sohaib Digital</span>
+            </div>
+
+            <p class="text-xs text-slate-500 font-semibold">
+                &copy; <span id="year"></span> Sohaib Digital. All rights reserved.
+            </p>
+
+            <div class="flex items-center gap-6 text-slate-500 font-bold text-xs">
+                <a href="#about" class="hover:text-accent-indigo transition-colors" data-i18n="nav-about">عن المكتب</a>
+                <a href="#services" class="hover:text-accent-indigo transition-colors" data-i18n="nav-services">الخدمات</a>
+                <a href="#contact" class="hover:text-accent-indigo transition-colors" data-i18n="nav-contact">تواصل معنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Translations & 3D Rendering Scripts -->
+    <script>
+        // Set dynamic current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Nav Hamburger Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            const isOpening = mobileMenu.classList.contains('hidden');
+            mobileMenu.classList.toggle('hidden');
+            mobileBtn.setAttribute('aria-expanded', String(isOpening));
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            mobileBtn.setAttribute('aria-expanded', 'false');
+        }));
+
+        // Full Multilingual Translation Dictionary (AR, FR, EN)
+        const translations = {
+            ar: {
+                dir: 'rtl',
+                'nav-sub': 'خدمات وبرمجيات رقمية',
+                'nav-about': 'عن المكتب',
+                'nav-services': 'الخدمات وتفاصيل العمل',
+                'nav-process': 'منهجية التنفيذ',
+                'nav-contact': 'طلب مشروع',
+                'btn-whatsapp': 'تواصل مباشر',
+                'hero-badge': 'مكتب متكامل للحلول والبرمجة الرقمية الاحترافية',
+                'hero-title-1': 'نحوّل فكرتك إلى',
+                'hero-title-2': 'واقع رقمي عصري ومتميز',
+                'hero-desc': 'نقدم خدمات برمجية وتصميمية رفيعة المستوى: تطوير المواقع الإلكترونية السريعة، قوائم الطعام الرقمية التفاعلية (QR Menus)، تنسيق المستندات والـ PDFs الاحترافية، وتصميم الهويات البصرية المبتكرة.',
+                'hero-cta-main': 'ابدأ مشروعك الآن',
+                'hero-cta-secondary': 'تفاصيل الخدمات',
+                'stat-1': 'احترافية ودقة',
+                'stat-2': 'متابعة مباشرة',
+                'stat-3': 'سرعة في التسليم',
+                'card-title': 'تطوير برمجي حديث بتقنيات 3D',
+                'card-desc': 'واجهات نظيفة، استجابة سرعة فائقة، وهندسة برمجية تحترم أفضل معايير تجربة المستخدم (UX/UI).',
+                'card-badge': 'Clean Modern Palette',
+                'serv-sub': 'مجالات الاختصاص والتنفيذ',
+                'serv-title': 'الخدمات وطريقة عملنا في كل مشروع',
+                'serv-desc': 'نوضح لك بكل شفافية خطوات تنفيذ العمل والنتائج المتوقعة لكل خدمة نقدمها.',
+                's1-tag': 'تطوير برجمي',
+                's1-title': 'تصميم وتطوير المواقع والمنصات',
+                's1-desc': 'نصمم موقعاً إلكترونياً عصرياً متجاوباً بالكامل مع الهواتف والحواسب، مجهزاً بأحدث التقنيات لضمان السرعة العالية والظهور المتميز على محركات البحث.',
+                's2-tag': 'مطاعم ومقاهي',
+                's2-title': 'منيو QR رقمي تفاعلي',
+                's2-desc': 'تحويل قائمة مطعمك أو مقهاك إلى منيو إلكتروني سريع يفتح عبر مسح كود QR، يسهل على الزبائن تصفح الوجبات، الصور، والأسعار بأسلوب راقٍ.',
+                's3-tag': 'مستندات وتقارير',
+                's3-title': 'تنسيق وهيكلة المستندات والـ PDF',
+                's3-desc': 'تحويل المستندات العشوائية، التقارير والملفات إلى ملفات PDF احترافية ذات تنسيق أنيق، خطوط واضحة، وفهارس منظمة تليق بالشركات والأفراد.',
+                's4-tag': 'هوية وتصاميم',
+                's4-title': 'الهوية البصرية والتصاميم الإعلانية',
+                's4-desc': 'ابتكار الشعارات (Logos)، البنرات الإعلانية، وتصاميم مواقع التواصل الاجتماعي التي تعبر بعمق عن جودة خدماتك وتجذب عملائك المباشرين.',
+                'workflow-title': 'كيف نعمل على هذا المشروع؟',
+                's1-step1': 'تحليل المتطلبات: فهم هوية نشاطك التجاري والأهداف المطلوبة من الموقع.',
+                's1-step2': 'تصميم الواجهات (UI/UX): إعداد هيكلة بصرية عصرية وسلسة للزوار.',
+                's1-step3': 'البرمجة والربط: بناء الكود البرمجي وربط أزرار الواتساب ووسائل التواصل مباشرة.',
+                's1-step4': 'النشر والاختبار: رفع الموقع على الاستضافة واختبار الأداء والسرعة.',
+                's1-feat1': 'تجاوب مع كل الشاشات',
+                's1-feat2': 'ربط واتساب وأزرار اتصال',
+                's1-feat3': 'تحسين محركات البحث SEO',
+                's1-feat4': 'سرعة تحميل فائقة',
+                's2-step1': 'استلام القائمة واللقطات: تزويدنا بالأطباق، الصور، والأسعار الحالية.',
+                's2-step2': 'الهيكلة والتقسيم: تنظيم الأقسام (مشروبات، وجبات رئيسية...) لسهولة التصفح.',
+                's2-step3': 'توليد كود QR الدائم: إنشاء رمز QR عالي الدقة جاهز للطباعة على الطاولات.',
+                's2-step4': 'التسليم والتشغيل: تسليم المنيو وشفرات QR جاهزة للاستخدام الفوري.',
+                's2-feat1': 'تصفح سريع بدون تطبيق',
+                's2-feat2': 'كود QR دائم للطباعة',
+                's2-feat3': 'تقسيم واضح للأطباق',
+                's2-feat4': 'إمكانية التعديل والتحديث',
+                's3-step1': 'مراجعة النصوص والبيانات: التدقيق الأولي وتنظيم ترتيب الصفحات.',
+                's3-step2': 'تطبيق الهوية والخطوط: اختيار خطوط رسمية متناسقة وضبط الهوامش والعناوين.',
+                's3-step3': 'إضافة الترويسة والفهرس: إضافة الغلاف، الهوامش، ورقم الصفحات والفهارس.',
+                's3-step4': 'التصدير النهائي: تقديم ملف PDF جاهز للطباعة والمشاركة بأعلى جودة.',
+                's3-feat1': 'خطوط احترافية متناسقة',
+                's3-feat2': 'إضافة الأغلفة والفهارس',
+                's3-feat3': 'جاهز للطباعة والمشاركة',
+                's3-feat4': 'تدقيق وتنظيم المحتوى',
+                's4-step1': 'دراسة الفكرة والنمط: فهم الرسالة التسويقية والجمهور المستهدف.',
+                's4-step2': 'إعداد النماذج الأولية: تقديم اقتراحات وتصورات بصرية مبتكرة.',
+                's4-step3': 'التعديل والتطوير: ضبط الألوان والخطوط بناءً على ملاحظاتك.',
+                's4-step4': 'تسليم جميع الصيغ: إرسال التصاميم بصيغ HD عالية الجودة جاهزة للنشر.',
+                's4-feat1': 'شعارات مبتكرة وبسيطة',
+                's4-feat2': 'بنرات السوشيال ميديا',
+                's4-feat3': 'ألوان متناسقة وعصرية',
+                's4-feat4': 'تسليم بكافة الصيغ (PNG, PDF, SVG)',
+                's-btn': 'اطلب هذه الخدمة الآن',
+                'proc-sub': 'مراحل العمل الفعالة',
+                'proc-title': '4 خطوات بسيطة للبدء والتسليم',
+                'p1-t': 'التواصل والتحديد',
+                'p1-d': 'ترسل لنا تفاصيل مشروعك عبر استمارة الواتساب المباشرة.',
+                'p2-t': 'التخطيط والإعداد',
+                'p2-d': 'دراسة المتطلبات وإعداد الهيكل الأولي للعمل للبدء في التنفيذ.',
+                'p3-t': 'التنفيذ والمراجعة',
+                'p3-d': 'تطوير العمل وعرض نماذج المراجعة لتعديل أي ملاحظات.',
+                'p4-t': 'التسليم النهائي',
+                'p4-d': 'تسليم المشروع شاملاً كافة الملفات المطلوبة وتفعيل الخدمة.',
+                'form-badge': 'استشارة وتواصل سريع',
+                'form-title': 'أرسل طلبك مباشرة إلى حساب الواتساب',
+                'form-desc': 'قم بتعبئة بياناتك ليتم إعداد رسالة منسقة تلقائياً وفتح تطبيق الواتساب لمراسلتنا فوراً.',
+                'f-name': 'الاسم الكامل *',
+                'f-phone': 'رقم الهاتف / الواتساب *',
+                'f-service': 'نوع الخدمة المطلوبة *',
+                'f-details': 'تفاصيل مشروعك *',
+                'f-submit': 'إرسال الطلب عبر الواتساب المباشر',
+                'opt-1': 'تصميم وتطوير موقع إلكتروني',
+                'opt-2': 'منيو QR رقمي للمطاعم والمقاهي',
+                'opt-3': 'تنسيق وهيكلة مستندات و PDF',
+                'opt-4': 'تصميم هوية بصرية وبنرات إعلانية',
+                'opt-5': 'استفسار / مشروع خاص'
+            },
+            fr: {
+                dir: 'ltr',
+                'nav-sub': 'Services Digitales & Développement',
+                'nav-about': 'À propos',
+                'nav-services': 'Services & Processus',
+                'nav-process': 'Méthodologie',
+                'nav-contact': 'Demander un projet',
+                'btn-whatsapp': 'Contact Direct',
+                'hero-badge': 'Agence de Solutions Digitales & Développement Web',
+                'hero-title-1': 'Transformez vos idées en',
+                'hero-title-2': 'Projets Digitaux d’Excellence',
+                'hero-desc': 'Nous proposons des services de développement et design haut de gamme: création de sites web rapides, menus QR interactifs, mise en page professionnelle de PDF et identités visuelles sur-mesure.',
+                'hero-cta-main': 'Démarrer Votre Projet',
+                'hero-cta-secondary': 'Détails des Services',
+                'stat-1': 'Rigueur & Qualité',
+                'stat-2': 'Suivi Direct 1-à-1',
+                'stat-3': 'Livraison Rapide',
+                'card-title': 'Développement 3D Moderne',
+                'card-desc': 'Interfaces épurées, vitesse de chargement optimale et architecture UX/UI soignée.',
+                'card-badge': 'Palette Professionnelle Clair',
+                'serv-sub': 'Domaines d’Expertise',
+                'serv-title': 'Services & Processus de Travail',
+                'serv-desc': 'Transparence totale sur la méthodologie de réalisation et les livrables de chaque projet.',
+                's1-tag': 'Développement Web',
+                's1-title': 'Conception & Développement Web',
+                's1-desc': 'Création de sites web modernes entièrement adaptés aux mobiles et ordinateurs, optimisés pour la vitesse et le référencement.',
+                's2-tag': 'Restaurants & Cafés',
+                's2-title': 'Menu QR Digital Interactif',
+                's2-desc': 'Numérisation du menu de votre restaurant/café accessible instantanément via un simple QR code.',
+                's3-tag': 'Documents & PDF',
+                's3-title': 'Mise en Page & Structuration PDF',
+                's3-desc': 'Transformation de vos fichiers et rapports en documents PDF professionnels élégants et parfaitement mis en forme.',
+                's4-tag': 'Design & Branding',
+                's4-title': 'Identité Visuelle & Bannières',
+                's4-desc': 'Création de logos, visuels réseaux sociaux et bannières publicitaires captivantes pour valoriser votre marque.',
+                'workflow-title': 'Notre Processus de Travail:',
+                's1-step1': 'Analyse des besoins: Compréhension de votre activité et des objectifs du site.',
+                's1-step2': 'Design UX/UI: Élaboration d’une maquette moderne et fluide.',
+                's1-step3': 'Développement: Codage du site et intégration des boutons de contact direct.',
+                's1-step4': 'Mise en ligne: Déploiement sur serveur et tests de rapidité.',
+                's1-feat1': '100% Adapté aux Mobiles',
+                's1-feat2': 'Intégration WhatsApp direct',
+                's1-feat3': 'Optimisation SEO',
+                's1-feat4': 'Vitesse de chargement élevée',
+                's2-step1': 'Réception du contenu: Envoi des plats, visuels et tarifs actuels.',
+                's2-step2': 'Structuration: Organisation des catégories (Boissons, Plats, Desserts...).',
+                's2-step3': 'Génération du QR Code: Création du code QR HD permanent pour vos tables.',
+                's2-step4': 'Livraison: Remise du menu digital prêt à l’emploi.',
+                's2-feat1': 'Navigation sans application',
+                's2-feat2': 'QR code permanent à imprimer',
+                's2-feat3': 'Catégories claires et lisibles',
+                's2-feat4': 'Mise à jour facile',
+                's3-step1': 'Révision des données: Correction initiale et ordre des pages.',
+                's3-step2': 'Typographie & Couleurs: Choix de polices officielles et ajustement des marges.',
+                's3-step3': 'Sommaire & Numérotation: Ajout de couverture, bas de page et sommaire interactif.',
+                's3-step4': 'Exportation: Remise du fichier PDF HD prêt à imprimer et partager.',
+                's3-feat1': 'Polices officielles élégantes',
+                's3-feat2': 'Couverture & Sommaire inclus',
+                's3-feat3': 'Format prêt à l’impression',
+                's3-feat4': 'Organisation claire du texte',
+                's4-step1': 'Étude du concept: Analyse du message et du public cible.',
+                's4-step2': 'Propositions créatives: Création de concepts visuels sur-mesure.',
+                's4-step3': 'Ajustements: Perfectionnement selon vos remarques.',
+                's4-step4': 'Livraison complète: Envoi des fichiers HD en haute définition.',
+                's4-feat1': 'Logos épurés et modernes',
+                's4-feat2': 'Bannières réseaux sociaux',
+                's4-feat3': 'Palette de couleurs harmonieuse',
+                's4-feat4': 'Formats inclus (PNG, PDF, SVG)',
+                's-btn': 'Commander ce Service',
+                'proc-sub': 'Méthodologie Claire',
+                'proc-title': '4 Étapes de la Commande à la Livraison',
+                'p1-t': 'Premier Contact',
+                'p1-d': 'Envoi de votre demande via le formulaire WhatsApp direct.',
+                'p2-t': 'Planification',
+                'p2-d': 'Analyse des exigences et validation de la feuille de route.',
+                'p3-t': 'Réalisation',
+                'p3-d': 'Développement et ajustements selon vos retours.',
+                'p4-t': 'Livraison Finale',
+                'p4-d': 'Remise de tous les fichiers et déploiement officiel.',
+                'form-badge': 'Demande Rapide',
+                'form-title': 'Envoyez votre demande sur WhatsApp',
+                'form-desc': 'Remplissez le formulaire ci-dessous pour générer un message pré-rempli sur WhatsApp.',
+                'f-name': 'Nom Complet *',
+                'f-phone': 'Numéro Téléphone / WhatsApp *',
+                'f-service': 'Service Désiré *',
+                'f-details': 'Détails du Projet *',
+                'f-submit': 'Envoyer sur WhatsApp',
+                'opt-1': 'Création de Site Web',
+                'opt-2': 'Menu QR pour Restaurant/Café',
+                'opt-3': 'Mise en page PDF & Documents',
+                'opt-4': 'Identité Visuelle & Bannières',
+                'opt-5': 'Demande Particulière'
+            },
+            en: {
+                dir: 'ltr',
+                'nav-sub': 'Digital Services & Engineering',
+                'nav-about': 'About Us',
+                'nav-services': 'Services & Workflow',
+                'nav-process': 'Methodology',
+                'nav-contact': 'Request Project',
+                'btn-whatsapp': 'Direct WhatsApp',
+                'hero-badge': 'Full-Service Digital & Web Development Agency',
+                'hero-title-1': 'Turn Your Ideas Into',
+                'hero-title-2': 'Modern Digital Products',
+                'hero-desc': 'We deliver top-tier engineering and design solutions: high-speed web apps, interactive QR menus, professional document & PDF formatting, and clean visual branding.',
+                'hero-cta-main': 'Start Your Project',
+                'hero-cta-secondary': 'Explore Services',
+                'stat-1': '100% Precision',
+                'stat-2': 'Direct 1-on-1 Support',
+                'stat-3': 'Rapid Delivery',
+                'card-title': 'Modern 3D Web Solutions',
+                'card-desc': 'Clean interfaces, lightning performance, and user-centric architecture.',
+                'card-badge': 'Light Professional Palette',
+                'serv-sub': 'Our Core Specializations',
+                'serv-title': 'Services & Execution Methodology',
+                'serv-desc': 'Complete transparency on steps, workflow, and deliverables for every project.',
+                's1-tag': 'Web Engineering',
+                's1-title': 'Website & Platform Development',
+                's1-desc': 'Building fast, responsive, and SEO-friendly websites optimized for mobile devices and search engines.',
+                's2-tag': 'Cafes & Restaurants',
+                's2-title': 'Interactive Digital QR Menu',
+                's2-desc': 'Transforming traditional menus into fast interactive digital experiences via QR code scans.',
+                's3-tag': 'Docs & Reports',
+                's3-title': 'PDF & Document Structuring',
+                's3-desc': 'Converting raw text and reports into clean, corporate-grade structured PDF documents.',
+                's4-tag': 'Visual & Branding',
+                's4-title': 'Brand Identity & Visual Graphics',
+                's4-desc': 'Designing logos, social banners, and marketing visuals that represent your brand authority.',
+                'workflow-title': 'How We Work On This Project:',
+                's1-step1': 'Requirements Analysis: Understanding your business goals and targets.',
+                's1-step2': 'UI/UX Design: Wireframing clean and user-friendly layouts.',
+                's1-step3': 'Development: Writing clean code and integrating instant action triggers.',
+                's1-step4': 'Deployment: Hosting the platform and executing performance tests.',
+                's1-feat1': 'Fully Responsive Layouts',
+                's1-feat2': 'Direct WhatsApp triggers',
+                's1-feat3': 'SEO Search Optimization',
+                's1-feat4': 'Ultra Fast Loading',
+                's2-step1': 'Content Collection: Gathering dishes, images, and prices.',
+                's2-step2': 'Category Setup: Organizing food, drinks, and special items.',
+                's2-step3': 'Static QR Generation: Creating printable high-resolution QR codes.',
+                's2-step4': 'Handoff: Delivering live menus ready for immediate table scan.',
+                's2-feat1': 'No app download required',
+                's2-feat2': 'Printable static QR code',
+                's2-feat3': 'Clear dish categorization',
+                's2-feat4': 'Easy menu updates',
+                's3-step1': 'Data Audit: Initial proofreading and page flow structuring.',
+                's3-step2': 'Typography & Style: Setting formal corporate fonts and margins.',
+                's3-step3': 'Table of Contents: Adding covers, footers, and interactive indexes.',
+                's3-step4': 'Final Export: Delivering print-ready HD PDF files.',
+                's3-feat1': 'Clean corporate fonts',
+                's3-feat2': 'Cover and table of contents',
+                's3-feat3': 'Print and digital ready',
+                's3-feat4': 'Structured text flow',
+                's4-step1': 'Brand Brief: Reviewing project concepts and target demographic.',
+                's4-step2': 'Drafting Concepts: Creating initial creative logo proposals.',
+                's4-step3': 'Refinement: Adjusting color palettes based on feedback.',
+                's4-step4': 'Final Delivery: Sending complete HD assets across formats.',
+                's4-feat1': 'Minimalist clean logos',
+                's4-feat2': 'Social media banners',
+                's4-feat3': 'Harmonious color schemes',
+                's4-feat4': 'Multiple file formats (PNG, PDF, SVG)',
+                's-btn': 'Order This Service Now',
+                'proc-sub': 'Efficient Workflow',
+                'proc-title': '4 Simple Steps from Brief to Delivery',
+                'p1-t': 'Initial Consultation',
+                'p1-d': 'Submit your request through our direct WhatsApp form.',
+                'p2-t': 'Planning',
+                'p2-d': 'Defining project architecture and execution timelines.',
+                'p3-t': 'Execution',
+                'p3-d': 'Development and iterative review cycles.',
+                'p4-t': 'Final Delivery',
+                'p4-d': 'Deploying project files and official handoff.',
+                'form-badge': 'Fast Consultation',
+                'form-title': 'Send Your Inquiry via WhatsApp',
+                'form-desc': 'Fill out the details below to generate an organized message sent directly to WhatsApp.',
+                'f-name': 'Full Name *',
+                'f-phone': 'Phone / WhatsApp Number *',
+                'f-service': 'Required Service *',
+                'f-details': 'Project Details *',
+                'f-submit': 'Send via Direct WhatsApp',
+                'opt-1': 'Website Design & Development',
+                'opt-2': 'Interactive QR Menu for Restaurant',
+                'opt-3': 'PDF & Document Formatting',
+                'opt-4': 'Brand Identity & Visuals',
+                'opt-5': 'Custom Inquiry'
+            }
+        };
+
+        // Switcher Switcher Function
+        function setLanguage(lang) {
+            const data = translations[lang];
+            if (!data) return;
+
+            document.documentElement.dir = data.dir;
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (data[key]) {
+                    el.innerHTML = data[key];
+                }
+            });
+
+            ['ar', 'fr', 'en'].forEach(l => {
+                const btn = document.getElementById(`lang-btn-${l}`);
+                if (l === lang) {
+                    btn.className = "px-2.5 py-1.5 rounded-lg transition-all bg-accent-indigo text-white shadow-sm font-bold";
+                } else {
+                    btn.className = "px-2.5 py-1.5 rounded-lg transition-all text-slate-600 hover:text-surface-900";
+                }
+            });
+        }
+
+        // WhatsApp Form Action Handler
+        function sendToWhatsApp(e) {
+            e.preventDefault();
+            const name = document.getElementById('client-name').value.trim();
+            const phone = document.getElementById('client-phone').value.trim();
+            const service = document.getElementById('client-service').value;
+            const details = document.getElementById('client-details').value.trim();
+            const message = `Bonjour / السلام عليكم Sohaib Digital 👋\\n\\n📌 الاسم: ${name}\\n📞 الهاتف: ${phone}\\n🛠️ الخدمة: ${service}\\n📝 تفاصيل المشروع:\\n${details}`;
+            const whatsappUrl = `https://wa.me/212629979617?text=${encodeURIComponent(message)}`;
+            const win = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+            if (!win) window.location.href = whatsappUrl;
+        }
+
+        // Three.js Light-Theme 3D Ambient Renderer
+        window.addEventListener('load', function() {
+            if (typeof setLanguage === 'function') setLanguage('fr');
+            const canvas = document.getElementById('webgl-canvas');
+            if (!canvas || !window.THREE || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            let renderer;
+            try {
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: window.innerWidth > 700 });
+            } catch (error) {
+                canvas.style.display = 'none';
+                return;
+            }
+            const scene = new THREE.Scene();
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 16;
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+            // Central Wireframe Geometric Shape
+            const torusGeo = new THREE.IcosahedronGeometry(4.5, 1);
+            const torusMat = new THREE.MeshBasicMaterial({
+                color: 0x1D4ED8,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.15
+            });
+            const icosahedron = new THREE.Mesh(torusGeo, torusMat);
+            scene.add(icosahedron);
+
+            // Floating Satellite Octahedron
+            const octGeo = new THREE.OctahedronGeometry(2.2, 0);
+            const octMat = new THREE.MeshBasicMaterial({
+                color: 0x0EA5E9,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.25
+            });
+            const octahedron = new THREE.Mesh(octGeo, octMat);
+            octahedron.position.set(-11, 6, -4);
+            scene.add(octahedron);
+
+            // Light Floating Particles Field
+            const particleCount = window.innerWidth < 700 ? 65 : 150;
+            const particleGeo = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 45;
+            }
+
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            const particleMat = new THREE.PointsMaterial({
+                size: 0.12,
+                color: 0xF59E0B,
+                transparent: true,
+                opacity: 0.4
+            });
+            const particlePoints = new THREE.Points(particleGeo, particleMat);
+            scene.add(particlePoints);
+
+            // Mouse Hover Responsiveness
+            let mouseX = 0;
+            let mouseY = 0;
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            });
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // Render Loop
+            function animate() {
+                requestAnimationFrame(animate);
+                if (document.hidden) return;
+
+                icosahedron.rotation.x += 0.003;
+                icosahedron.rotation.y += 0.005;
+
+                octahedron.rotation.x += 0.008;
+                octahedron.rotation.y += 0.008;
+
+                particlePoints.rotation.y += 0.0008;
+
+                camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.02;
+                camera.position.y += (-mouseY * 1.5 - camera.position.y) * 0.02;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        });
+    </script>
+</body>
+</html>
