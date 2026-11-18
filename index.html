@@ -1008,7 +1008,7 @@ body.modal-open{overflow:hidden}
           <p>Tell visitors what you think. Your comment will be reviewed before it appears publicly.</p>
           <div class="review-name-row">
             <div class="review-field"><label for="reviewFirstName">First name *</label><input id="reviewFirstName" name="first_name" maxlength="40" autocomplete="given-name" required placeholder="Your first name"></div>
-            <div class="review-field"><label for="reviewLastName">Last name *</label><input id="reviewLastName" name="last_name" maxlength="50" autocomplete="family-name" required placeholder="Your last name"></div>
+            <div class="review-field"><label for="reviewLastName">Last name *</label><input id="reviewLastName" name="last_name" maxlength="40" autocomplete="family-name" required placeholder="Your last name"></div>
           </div>
           <div class="review-field"><label>Rating (optional)</label><div class="rating-picker" aria-label="Choose a rating"><input type="radio" id="rate5" name="rating" value="5"><label for="rate5" title="5 stars">★</label><input type="radio" id="rate4" name="rating" value="4"><label for="rate4" title="4 stars">★</label><input type="radio" id="rate3" name="rating" value="3"><label for="rate3" title="3 stars">★</label><input type="radio" id="rate2" name="rating" value="2"><label for="rate2" title="2 stars">★</label><input type="radio" id="rate1" name="rating" value="1"><label for="rate1" title="1 star">★</label></div></div>
           <div class="review-field"><label for="reviewComment">Your comment *</label><textarea id="reviewComment" name="comment" maxlength="700" required placeholder="Write your feedback..."></textarea></div>
@@ -1497,7 +1497,7 @@ const CONFIG = {
   async function loadCommunityReviews() {
     if (!reviewBackendReady || !reviewList) return;
     try {
-      const response = await fetch(REVIEW_BACKEND.url + "/rest/v1/" + REVIEW_BACKEND.table + "?select=first_name,last_name,rating,comment,avatar_url,created_at&status=eq.approved&order=created_at.desc&limit=30", {headers:{apikey:REVIEW_BACKEND.anonKey,Authorization:"Bearer " + REVIEW_BACKEND.anonKey}});
+      const response = await fetch(REVIEW_BACKEND.url + "/rest/v1/" + REVIEW_BACKEND.table + "?select=first_name,last_name,rating,comment,avatar_url,created_at&status=eq.approved&order=created_at.desc&limit=30", {headers:{apikey:REVIEW_BACKEND.anonKey}});
       if (!response.ok) throw new Error("Could not load community feedback");
       const rows = await response.json();
       reviewList.replaceChildren();
@@ -1522,12 +1522,20 @@ const CONFIG = {
         if (file) {
           const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
           const objectPath = "visitor-" + (window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now() + "-" + Math.random().toString(36).slice(2)) + "." + ext;
-          const upload = await fetch(REVIEW_BACKEND.url + "/storage/v1/object/" + REVIEW_BACKEND.bucket + "/" + objectPath, {method:"POST",headers:{apikey:REVIEW_BACKEND.anonKey,Authorization:"Bearer " + REVIEW_BACKEND.anonKey,"Content-Type":file.type,"x-upsert":"false"},body:file});
-          if (!upload.ok) throw new Error("Photo upload failed. Try again without a photo.");
+          const upload = await fetch(REVIEW_BACKEND.url + "/storage/v1/object/" + REVIEW_BACKEND.bucket + "/" + objectPath, {method:"POST",headers:{apikey:REVIEW_BACKEND.anonKey,"Content-Type":file.type,"x-upsert":"false"},body:file});
+          if (!upload.ok) {
+            const detail = await upload.text().catch(function(){ return ""; });
+            console.error("Supabase avatar upload failed:", upload.status, detail);
+            throw new Error("Photo upload failed (HTTP " + upload.status + "). Try again without a photo.");
+          }
           avatarUrl = REVIEW_BACKEND.url + "/storage/v1/object/public/" + REVIEW_BACKEND.bucket + "/" + objectPath;
         }
-        const response = await fetch(REVIEW_BACKEND.url + "/rest/v1/" + REVIEW_BACKEND.table, {method:"POST",headers:{apikey:REVIEW_BACKEND.anonKey,Authorization:"Bearer " + REVIEW_BACKEND.anonKey,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({first_name:first,last_name:last,rating:rating,comment:comment,avatar_url:avatarUrl,status:"pending"})});
-        if (!response.ok) throw new Error("Your comment could not be submitted. Please try again later.");
+        const response = await fetch(REVIEW_BACKEND.url + "/rest/v1/" + REVIEW_BACKEND.table, {method:"POST",headers:{apikey:REVIEW_BACKEND.anonKey,"Content-Type":"application/json",Prefer:"return=minimal"},body:JSON.stringify({first_name:first,last_name:last,rating:rating,comment:comment,avatar_url:avatarUrl,status:"pending"})});
+        if (!response.ok) {
+          const detail = await response.text().catch(function(){ return ""; });
+          console.error("Supabase community review insert failed:", response.status, detail);
+          throw new Error("Submission failed (HTTP " + response.status + "). " + (detail || "Please try again later."));
+        }
         reviewForm.reset(); reviewMessage("Thank you! Your comment was received and will appear after approval.", "ok");
       } catch (error) { reviewMessage(error.message || "Something went wrong. Please try again.", "error"); }
       finally { reviewSubmit.disabled = false; reviewSubmit.textContent = "Submit Feedback ↗"; }
